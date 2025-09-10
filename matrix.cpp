@@ -15,10 +15,12 @@ ERRORS print(int* a, sizes* sz) {
 
     for (int i = 0; i < sz->n; ++i) {
         for (int j = 0; j < sz->m; ++j) {
-            printf("%d ", *(a + sz->m * i + j));
+            printf("%2d  ", *(a + sz->m * i + j));
         }
         printf("\n");
     }
+
+    printf("\n");
 
     return NOTHING;
 }
@@ -62,6 +64,24 @@ ERRORS sub(int* a, int* b, int* ans, sizes* sz) {
     return NOTHING;
 }
 
+ERRORS mul(int* a, sizes* sz, int k) {
+    my_assert(!a, NULLPTR);
+    my_assert(!sz, NULLPTR);
+    
+    int* start = a;
+
+    for (int i = 0; i < sz->n; ++i) {
+        for (int j = 0; j < sz->m; ++j) {
+            int new_a = *a * k;
+            *a++ = new_a;
+        }
+    }
+
+    a = start;
+
+    return NOTHING;
+}
+
 int main() {
     int a[3][2] = {{1, 2},
                    {3, 4},
@@ -82,4 +102,8 @@ int main() {
     kill_main(sub((int*)a, (int*)b, (int*)c, &sz));
 
     kill_main(print((int*)c, &sz));
+
+    kill_main(mul((int*)a, &sz, 5));
+
+    kill_main(print((int*)a, &sz));
 }
