@@ -45,11 +45,7 @@ int main() {
                    {5, 6}};
     int c[3][2] = {{0}};
 
-    ERRORS err = sum((int*)a, (int*)b, (int*)c, 3, 2); 
-    
-    kill_main(err);
+    kill_main(sum((int*)a, (int*)b, (int*)c, 3, 2));
 
-    err = print((int*)c, 3, 2);
-
-    kill_main(err);
+    kill_main(print((int*)c, 3, 2));
 }
