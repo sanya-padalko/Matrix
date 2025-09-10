@@ -5,12 +5,17 @@
 
 using namespace std;
 
-ERRORS print(int* a, int n, int m) {
-    my_assert(!a, NULLPTR);
+struct sizes {
+    int n, m;
+};
 
-    for (int i = 0; i < n; ++i) {
-        for (int j = 0; j < m; ++j) {
-            printf("%d ", *(a + m * i + j));
+ERRORS print(int* a, sizes* sz) {
+    my_assert(!a, NULLPTR);
+    my_assert(!sz, NULLPTR);
+
+    for (int i = 0; i < sz->n; ++i) {
+        for (int j = 0; j < sz->m; ++j) {
+            printf("%d ", *(a + sz->m * i + j));
         }
         printf("\n");
     }
@@ -18,16 +23,37 @@ ERRORS print(int* a, int n, int m) {
     return NOTHING;
 }
 
-ERRORS sum(int* a, int* b, int* ans, int n, int m) {
+ERRORS sum(int* a, int* b, int* ans, sizes* sz) {
     my_assert(!a, NULLPTR);
     my_assert(!b, NULLPTR);
     my_assert(!ans, NULLPTR);
+    my_assert(!sz, NULLPTR);
 
     int* start = ans;
 
-    for (int i = 0; i < n; ++i) {
-        for (int j = 0; j < m; ++j) {
-            *ans++ = *(a + m * i + j) + *(b + m * i + j);
+    for (int i = 0; i < sz->n; ++i) {
+        for (int j = 0; j < sz->m; ++j) {
+            *ans++ = *(a + sz->m * i + j) + *(b + sz->m * i + j);
+        }
+    }
+
+    ans = start;
+
+    return NOTHING;
+}
+
+ERRORS sub(int* a, int* b, int* ans, sizes* sz) {
+    my_assert(!a, NULLPTR);
+    my_assert(!b, NULLPTR);
+    my_assert(!ans, NULLPTR);
+    my_assert(!sz, NULLPTR);
+
+    int* start = ans;
+
+
+    for (int i = 0; i < sz->n; ++i) {
+        for (int j = 0; j < sz->m; ++j) {
+            *ans++ = *(a + sz->m * i + j) - *(b + sz->m * i + j);
         }
     }
 
@@ -45,7 +71,15 @@ int main() {
                    {5, 6}};
     int c[3][2] = {{0}};
 
-    kill_main(sum((int*)a, (int*)b, (int*)c, 3, 2));
+    sizes sz;
+    sz.n = 3;
+    sz.m = 2;
 
-    kill_main(print((int*)c, 3, 2));
+    kill_main(sum((int*)a, (int*)b, (int*)c, &sz));
+
+    kill_main(print((int*)c, &sz));
+
+    kill_main(sub((int*)a, (int*)b, (int*)c, &sz));
+
+    kill_main(print((int*)c, &sz));
 }
