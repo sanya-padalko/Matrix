@@ -8,7 +8,7 @@ enum ERRORS {
     NULLPTR        =   0,
     NAN_ERR        =   1,
     INFINITY_DIGIT =   2,
-    INDEX_ERR      =   3
+    INDEX_ERR      =   3,
 };
 
 void print_err_message(const char *file_name, const char* func_name, const int n_line,
